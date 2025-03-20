@@ -9,12 +9,26 @@ ClipboardManager& ClipboardManager::getInstance() {
 bool ClipboardManager::readClipboard() {
     if (!OpenClipboard(nullptr)) return false;
     
-    HANDLE hData = GetClipboardData(CF_UNICODETEXT);
-    if (hData) {
-        wchar_t* pszText = static_cast<wchar_t*>(GlobalLock(hData));
+    // 同时支持UNICODE和ANSI格式
+    HANDLE hUnicode = GetClipboardData(CF_UNICODETEXT);
+    HANDLE hAnsi = GetClipboardData(CF_TEXT);
+
+    if (hUnicode) {
+        wchar_t* pszText = static_cast<wchar_t*>(GlobalLock(hUnicode));
         if (pszText) {
             m_clipboardText = pszText;
-            GlobalUnlock(hData);
+            GlobalUnlock(hUnicode);
+        }
+    }
+    else if (hAnsi) {
+        char* pszText = static_cast<char*>(GlobalLock(hAnsi));
+        if (pszText) {
+            int length = MultiByteToWideChar(CP_ACP, 0, pszText, -1, NULL, 0);
+            wchar_t* wideText = new wchar_t[length];
+            MultiByteToWideChar(CP_ACP, 0, pszText, -1, wideText, length);
+            m_clipboardText = wideText;
+            delete[] wideText;
+            GlobalUnlock(hAnsi);
         }
     }
     
