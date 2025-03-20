@@ -12,6 +12,10 @@ AutoPaste 是一个用 C++ 编写的项目，旨在实现使用系统级输出�
    ```
 2. 编译项目：
    ```bash
+   mkdir build
+   cd build
+   cmake -G"Visual Studio 17 2022" ..
+   cd ..
    cmake --build build --config Release
    ```
 
