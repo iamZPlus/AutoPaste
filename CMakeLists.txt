@@ -12,8 +12,6 @@ add_executable(AutoPaste
     HotkeyHandler.h
     InputSimulator.cpp
     InputSimulator.h
-    FloatingWindow.cpp
-    FloatingWindow.h
 )
 
 target_compile_definitions(AutoPaste PRIVATE UNICODE _UNICODE)

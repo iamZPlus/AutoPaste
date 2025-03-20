@@ -2,7 +2,6 @@
 #include "HotkeyHandler.h"
 #include "ClipboardManager.h"
 #include "InputSimulator.h"
-#include "FloatingWindow.h"
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) {
     switch (message) {
